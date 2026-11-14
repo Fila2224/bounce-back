@@ -12,8 +12,13 @@ extends CharacterBody2D
 @export var planet: Node2D
 ## Rychlost pomalého stahování k planetě, když neletíte
 @export var pull_speed: float = 35.0
+## Doba průletu středem planety na druhou stranu (v sekundách)
+@export var dash_duration: float = 0.25
+
+var is_dashing: bool = false
 
 @onready var exhaust: AnimatedSprite2D = $Exhaust
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
 	if exhaust:
@@ -22,6 +27,15 @@ func _ready() -> void:
 		planet = get_parent().get_node_or_null("moon-center")
 
 func _physics_process(delta: float) -> void:
+	# Spuštění průletu středem na druhou stranu planety akcí 'blip' (mezerník)
+	if Input.is_action_just_pressed("blip") and not is_dashing and planet:
+		start_center_dash()
+		return
+	
+	# Pokud právě probíhá průlet středem, neovládáme raketu klávesami
+	if is_dashing:
+		return
+	
 	# Získání směru podle nastavených akcí z Input Map (left, right, up, down)
 	var direction := Input.get_vector("left", "right", "up", "down")
 	
@@ -66,3 +80,42 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 	
 	move_and_slide()
+
+## Zahájí rychlý přímý průlet středem planety na opačnou stranu
+func start_center_dash() -> void:
+	is_dashing = true
+	velocity = Vector2.ZERO
+	
+	# Dočasně vypneme kolizi, aby raketa neuvízla v povrchu planety
+	if collision_shape:
+		collision_shape.set_deferred("disabled", true)
+	
+	# Relativní pozice vůči planetě a cílová pozice na opačné straně
+	var current_offset := global_position - planet.global_position
+	var target_pos := planet.global_position - current_offset
+	
+	# Natočení rakety ve směru průletu
+	var dash_dir := (target_pos - global_position).normalized()
+	if dash_dir != Vector2.ZERO:
+		rotation = dash_dir.angle() + PI / 2
+	
+	# Zapnutí plamenů během průletu
+	if exhaust:
+		exhaust.visible = true
+		if not exhaust.is_playing() or exhaust.animation != "flying":
+			exhaust.play("flying")
+	
+	# Plynulý a rychlý pohyb na druhou stranu pomocí Tweenu
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "global_position", target_pos, dash_duration)
+	tween.finished.connect(_on_dash_finished)
+
+func _on_dash_finished() -> void:
+	is_dashing = false
+	if collision_shape:
+		collision_shape.set_deferred("disabled", false)
+	if exhaust:
+		exhaust.visible = false
+		exhaust.stop()

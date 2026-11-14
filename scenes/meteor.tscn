@@ -1,25 +1,25 @@
 [gd_scene format=3 uid="uid://byel5468s2qml"]
 
-[ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_n51xl"]
+[ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_tcwo0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohe0j"]
-atlas = ExtResource("1_n51xl")
+atlas = ExtResource("1_tcwo0")
 region = Rect2(0, 200, 128, 200)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xunib"]
-atlas = ExtResource("1_n51xl")
+atlas = ExtResource("1_tcwo0")
 region = Rect2(128, 200, 128, 200)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cuc0a"]
-atlas = ExtResource("1_n51xl")
+atlas = ExtResource("1_tcwo0")
 region = Rect2(256, 200, 128, 200)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yfp5j"]
-atlas = ExtResource("1_n51xl")
+atlas = ExtResource("1_tcwo0")
 region = Rect2(384, 200, 128, 200)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yxpia"]
-atlas = ExtResource("1_n51xl")
+atlas = ExtResource("1_tcwo0")
 region = Rect2(512, 200, 128, 200)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o8pv2"]
@@ -40,21 +40,21 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yxpia")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58b82"]
 
-[node name="meteor" type="CharacterBody2D"]
+[node name="meteor" type="CharacterBody2D" unique_id=1972038467]
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=873708314]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1438258980]
 sprite_frames = SubResource("SpriteFrames_o8pv2")
 frame_progress = 0.823513
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1333431625]
 position = Vector2(1, -88)
 shape = SubResource("CircleShape2D_58b82")
