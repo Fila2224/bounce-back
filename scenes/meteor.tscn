@@ -1,6 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dd77yiwmgdg3q"]
+[gd_scene load_steps=10 format=3 uid="uid://dd77yiwmgdg3q"]
 
+[ext_resource type="Script" uid="uid://yv7bsuwfhvnd" path="res://meteor.gd" id="1_pxso2"]
 [ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_tcwo0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pxso2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohe0j"]
 atlas = ExtResource("1_tcwo0")
@@ -45,16 +48,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_58b82"]
-
 [node name="meteor" type="CharacterBody2D"]
+script = ExtResource("1_pxso2")
 
 [node name="Area2D" type="Area2D" parent="."]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_o8pv2")
-frame_progress = 0.823513
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_pxso2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -88)
-shape = SubResource("CircleShape2D_58b82")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 20)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_o8pv2")
+autoplay = "default"
+frame_progress = 0.16073653

@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+@onready var moon_center: Sprite2D = $"../moon-center"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -8,12 +8,4 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if position.x <= 0:
-		position.x += 5
-	if position.x >= 0:
-		position.x -= 5
-	if position.y <= 0:
-		position.y +=5
-	if position.y >= 0:
-		position.y -=5
-	
+	print("asd")
