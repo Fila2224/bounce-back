@@ -9,10 +9,8 @@ radius = 16.0
 [node name="rocket" type="CharacterBody2D" unique_id=484315872]
 script = ExtResource("1_dkv7l")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=843276260]
+shape = SubResource("CircleShape2D_5gt1y")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=989950317]
 texture = ExtResource("1_fj03e")
-
-[node name="Area2D" type="Area2D" parent="Sprite2D" unique_id=113957123]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D" unique_id=843276260]
-shape = SubResource("CircleShape2D_5gt1y")
