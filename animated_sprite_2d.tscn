@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cndldastw1n84"]
+[gd_scene format=3 uid="uid://cndldastw1n84"]
 
 [ext_resource type="Script" uid="uid://byx01v4pm74wm" path="res://scripts/animated_sprite_2d.gd" id="1_22xei"]
 
