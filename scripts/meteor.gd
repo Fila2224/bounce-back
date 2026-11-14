@@ -42,10 +42,8 @@ func _on_body_entered(body: Node2D) -> void:
 	if is_exploded:
 		return
 	
-	# rocket
 	if body.name == "rocket" or body.is_in_group("rocket"):
 		explode("rocket")
-	# mesic
 	elif body.name == "moon-center" or body.get_parent() == moon_center or body.is_in_group("moon"):
 		explode("moon")
 

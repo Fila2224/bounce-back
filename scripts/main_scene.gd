@@ -96,13 +96,13 @@ func get_random_screen_edge_position() -> Vector2:
 	var spawn_pos := Vector2.ZERO
 	
 	match side:
-		0: # up
+		0:
 			spawn_pos = Vector2(randf_range(-half_w, half_w), -half_h)
-		1: # down
+		1:
 			spawn_pos = Vector2(randf_range(-half_w, half_w), half_h)
-		2: # left
+		2:
 			spawn_pos = Vector2(-half_w, randf_range(-half_h, half_h))
-		3: # right
+		3:
 			spawn_pos = Vector2(half_w, randf_range(-half_h, half_h))
 	
 	return center + spawn_pos

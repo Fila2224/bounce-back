@@ -1,12 +1,8 @@
 extends AnimatedSprite2D
 @onready var rocket: CharacterBody2D = $rocket
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	frame = 6-rocket.lives
+	frame = 6 - rocket.lives
