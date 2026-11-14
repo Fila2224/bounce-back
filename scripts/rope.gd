@@ -6,8 +6,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	clear_points()
-	add_point(to_local(rocket.global_position))
+func _process(_delta):
+	#clear_points()
 	add_point(to_local(moon_center.global_position))
+	add_point(to_local(rocket.global_position))
