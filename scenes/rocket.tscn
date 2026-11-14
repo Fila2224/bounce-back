@@ -6,11 +6,33 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5gt1y"]
 radius = 16.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkv7l"]
+atlas = ExtResource("1_fj03e")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agf72"]
+atlas = ExtResource("1_fj03e")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_073cp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkv7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agf72")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="rocket" type="CharacterBody2D" unique_id=484315872]
 script = ExtResource("1_dkv7l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=843276260]
 shape = SubResource("CircleShape2D_5gt1y")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=989950317]
-texture = ExtResource("1_fj03e")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710762449]
+sprite_frames = SubResource("SpriteFrames_073cp")
