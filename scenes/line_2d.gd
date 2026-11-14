@@ -11,5 +11,4 @@ func _process(_delta):
 	add_point(rocket.position)
 	add_point(moon_center.position)
 	var length = points[0].distance_to(points[1])
-	print(width)
 	width = 10 - length/50
