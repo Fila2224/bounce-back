@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var pull_speed: float = 35.0
 @export var dash_duration: float = 0.25
 
-@export var boost_multiplier: float = 2.0
+@export var boost_multiplier: float = 3.67
 
 var lives = 6
 var is_dashing: bool = false
@@ -21,9 +21,14 @@ var is_boosting: bool = false
 @onready var exhaust: AnimatedSprite2D = $Exhaust
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var progress_bar: ProgressBar = $"../ProgressBar"
+@onready var thruster_audio: AudioStreamPlayer2D = $ThrusterAudio
+@onready var blip_audio: AudioStreamPlayer2D = $BlipAudio
 
 
 func _ready() -> void:
+	if thruster_audio and thruster_audio.stream is AudioStreamWAV:
+		thruster_audio.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+
 	if exhaust:
 		exhaust.visible = false
 
@@ -79,11 +84,15 @@ func _physics_process(delta: float) -> void:
 			exhaust.visible = true
 			if not exhaust.is_playing() or exhaust.animation != "flying":
 				exhaust.play("flying")
+		if thruster_audio and not thruster_audio.playing:
+			thruster_audio.play()
 
 	else:
 		if exhaust:
 			exhaust.visible = false
 			exhaust.stop()
+		if thruster_audio and thruster_audio.playing:
+			thruster_audio.stop()
 
 		if planet:
 			var to_planet := planet.global_position - global_position
@@ -121,10 +130,15 @@ func start_center_dash() -> void:
 	if dash_dir != Vector2.ZERO:
 		rotation = dash_dir.angle() + PI / 2
 
+	if blip_audio:
+		blip_audio.play()
+
 	if exhaust:
 		exhaust.visible = true
 		if not exhaust.is_playing() or exhaust.animation != "flying":
 			exhaust.play("flying")
+	if thruster_audio and not thruster_audio.playing:
+		thruster_audio.play()
 
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
@@ -142,3 +156,5 @@ func _on_dash_finished() -> void:
 	if exhaust:
 		exhaust.visible = false
 		exhaust.stop()
+	if thruster_audio and thruster_audio.playing:
+		thruster_audio.stop()

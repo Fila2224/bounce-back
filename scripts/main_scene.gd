@@ -26,6 +26,8 @@ var elapsed_game_time: float = 0.0
 @onready var moon_center: Node2D = $"moon-center"
 @onready var camera: Camera2D = $"moon-center/Camera2D"
 @onready var spawn_timer: Timer = $MeteorTimer
+@onready var hit_destroy_audio: AudioStreamPlayer = $HitDestroyAudio
+@onready var hit_moon_audio: AudioStreamPlayer = $HitMoonAudio
 
 func _ready() -> void:
 	if not score_label:
@@ -164,15 +166,23 @@ func spawn_fighter() -> void:
 
 func _on_meteor_hit_rocket() -> void:
 	add_score(1)
+	if hit_destroy_audio:
+		hit_destroy_audio.play()
 
 func _on_meteor_hit_moon() -> void:
 	add_score(-3)
+	if hit_moon_audio:
+		hit_moon_audio.play()
 
 func _on_fighter_hit_rocket() -> void:
 	add_score(3)
+	if hit_destroy_audio:
+		hit_destroy_audio.play()
 
 func _on_fighter_hit_moon() -> void:
 	add_score(-5)
+	if hit_moon_audio:
+		hit_moon_audio.play()
 
 func add_score(amount: int) -> void:
 	score += amount

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://biv2cth1xpglm" path="res://scripts/rocket.gd" id="1_dkv7l"]
 [ext_resource type="Texture2D" uid="uid://cpok1uwf3upyf" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_02/exhaust02_spritesheet.png" id="2_exhaust"]
 [ext_resource type="Texture2D" uid="uid://d3mbxug6fb8h7" path="res://assets/Main Ship - Base - Damaged.png" id="3_fj03e"]
+[ext_resource type="AudioStream" uid="uid://ddt0e76vxokt4" path="res://assets/sounds/thruster.wav" id="4_thruster"]
+[ext_resource type="AudioStream" uid="uid://cdg3v204lrofn" path="res://assets/sounds/blip_swoosh.wav" id="5_blip"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5gt1y"]
 radius = 16.0
@@ -199,3 +201,11 @@ sprite_frames = SubResource("SpriteFrames_073cp")
 
 [node name="connector" type="Node2D" parent="." unique_id=1620100182]
 position = Vector2(0, 11)
+
+[node name="ThrusterAudio" type="AudioStreamPlayer2D" parent="." unique_id=1620100183]
+stream = ExtResource("4_thruster")
+volume_db = 24.0
+
+[node name="BlipAudio" type="AudioStreamPlayer2D" parent="." unique_id=1620100184]
+stream = ExtResource("5_blip")
+volume_db = -5.0
