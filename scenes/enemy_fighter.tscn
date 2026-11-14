@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ce2q8x1nav0p4"]
+[gd_scene load_steps=0 format=3 uid="uid://ce2q8x1nav0p4"]
 
 [ext_resource type="Texture2D" uid="uid://bi68hqt7bs0u5" path="res://assets/enemy_fighter/Evasion.png" id="1_eva"]
 [ext_resource type="Texture2D" uid="uid://bqsr5rj04u5q1" path="res://assets/enemy_fighter/Destroyed.png" id="2_des"]
