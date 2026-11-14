@@ -1,4 +1,4 @@
-[gd_scene load_steps=0 format=3 uid="uid://byel5468s2qml"]
+[gd_scene load_steps=9 format=3 uid="uid://dd77yiwmgdg3q"]
 
 [ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_tcwo0"]
 
@@ -40,21 +40,21 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yxpia")
 }],
-"loop": 1,
+"loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58b82"]
 
-[node name="meteor" type="CharacterBody2D" unique_id=1972038467]
+[node name="meteor" type="CharacterBody2D"]
 
-[node name="Area2D" type="Area2D" parent="." unique_id=873708314]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1438258980]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_o8pv2")
 frame_progress = 0.823513
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1333431625]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -88)
 shape = SubResource("CircleShape2D_58b82")
