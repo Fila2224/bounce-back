@@ -1,5 +1,10 @@
 extends Node2D
 
+## Počáteční skóre (začíná se s 10 body)
+@export var score: int = 10
+## Odkaz na Label pro zobrazení skóre
+@export var score_label: Label
+
 ## Scéna meteoru, která se bude generovat
 @export var meteor_scene: PackedScene = preload("res://scenes/meteor.tscn")
 ## Základní interval mezi příchodem meteorů (v sekundách)
@@ -14,6 +19,10 @@ extends Node2D
 @onready var spawn_timer: Timer = $MeteorTimer
 
 func _ready() -> void:
+	if not score_label:
+		score_label = find_child("score", true, false) as Label
+	update_score_display()
+	
 	if spawn_timer:
 		spawn_timer.timeout.connect(_on_meteor_timer_timeout)
 		spawn_timer.wait_time = spawn_interval
@@ -63,4 +72,26 @@ func spawn_meteor() -> void:
 	if "moon_center" in meteor and moon_center:
 		meteor.moon_center = moon_center
 	
+	# Připojení signálů pro změnu skóre
+	if meteor.has_signal("hit_rocket"):
+		meteor.hit_rocket.connect(_on_meteor_hit_rocket)
+	if meteor.has_signal("hit_moon"):
+		meteor.hit_moon.connect(_on_meteor_hit_moon)
+	
 	add_child(meteor)
+
+## Raketa trefila meteor -> +1 bod
+func _on_meteor_hit_rocket() -> void:
+	add_score(1)
+
+## Meteor trefil měsíc -> -3 body
+func _on_meteor_hit_moon() -> void:
+	add_score(-3)
+
+func add_score(amount: int) -> void:
+	score += amount
+	update_score_display()
+
+func update_score_display() -> void:
+	if score_label:
+		score_label.text = "Score: " + str(score)
