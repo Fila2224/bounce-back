@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1loenfrgfsjx"]
+[gd_scene load_steps=2 format=3 uid="uid://drgwwykb7qvcs"]
 
 [sub_resource type="GDScript" id="GDScript_wmsjs"]
 script/source = "extends Line2D
