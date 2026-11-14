@@ -10,7 +10,7 @@
 [node name="Line2D" parent="." instance=ExtResource("1_pu3yx")]
 position = Vector2(-209, 2)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="background" type="Sprite2D" parent="." unique_id=1115837974]
 texture = ExtResource("1_0f027")
 
 [node name="moon-center" parent="." instance=ExtResource("2_pw63i")]
