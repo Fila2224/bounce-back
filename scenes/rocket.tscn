@@ -7,6 +7,164 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5gt1y"]
 radius = 16.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fly_0"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(0, 200, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fly_1"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(128, 200, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fly_2"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(256, 200, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fly_3"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(384, 200, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fly_4"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(512, 200, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_0"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(0, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_1"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(128, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_2"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(256, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_3"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(384, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_4"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(512, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_5"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(640, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_6"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(768, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_7"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(896, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ign_8"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(1024, 0, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_0"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(0, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_1"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(128, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_2"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(256, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_3"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(384, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_4"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(512, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_off_5"]
+atlas = ExtResource("2_exhaust")
+region = Rect2(640, 400, 128, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_exhaust"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fly_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fly_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fly_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fly_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fly_4")
+}],
+"loop": 1,
+"name": &"flying",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ign_8")
+}],
+"loop": 0,
+"name": &"ignition",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_off_5")
+}],
+"loop": 0,
+"name": &"shutoff",
+"speed": 24.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkv7l"]
 atlas = ExtResource("3_fj03e")
 region = Rect2(0, 0, 48, 48)
@@ -24,88 +182,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_agf72")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fly_0"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(0, 200, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_fly_1"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(128, 200, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_fly_2"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(256, 200, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_fly_3"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(384, 200, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_fly_4"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(512, 200, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_0"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(0, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_1"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(128, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_2"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(256, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_3"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(384, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_4"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(512, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_5"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(640, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_6"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(768, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_7"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(896, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_ign_8"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(1024, 0, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_0"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(0, 400, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_1"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(128, 400, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_2"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(256, 400, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_3"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(384, 400, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_4"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(512, 400, 128, 200)
-[sub_resource type="AtlasTexture" id="AtlasTexture_off_5"]
-atlas = ExtResource("2_exhaust")
-region = Rect2(640, 400, 128, 200)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_exhaust"]
-animations = [{
-"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_ign_0")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_4")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_5")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_6")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_7")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_ign_8")}],
-"loop": false,
-"name": &"ignition",
-"speed": 24.0
-}, {
-"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_fly_0")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_fly_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_fly_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_fly_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_fly_4")}],
-"loop": true,
-"name": &"flying",
-"speed": 16.0
-}, {
-"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_off_0")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_off_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_off_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_off_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_off_4")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_off_5")}],
-"loop": false,
-"name": &"shutoff",
-"speed": 24.0
 }]
 
 [node name="rocket" type="CharacterBody2D" unique_id=484315872]
@@ -118,10 +197,13 @@ shape = SubResource("CircleShape2D_5gt1y")
 show_behind_parent = true
 position = Vector2(0, 12)
 scale = Vector2(0.5, 0.5)
-offset = Vector2(0, 96)
 sprite_frames = SubResource("SpriteFrames_exhaust")
 animation = &"flying"
+offset = Vector2(0, 96)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710762449]
 sprite_frames = SubResource("SpriteFrames_073cp")
 autoplay = "default"
+
+[node name="connector" type="Node2D" parent="." unique_id=1620100182]
+position = Vector2(0, 11)
