@@ -1,27 +1,28 @@
-[gd_scene format=3 uid="uid://brdy86nmjtwqy"]
+[gd_scene load_steps=5 format=3 uid="uid://brdy86nmjtwqy"]
 
 [ext_resource type="Texture2D" uid="uid://uyiytog8t307" path="res://assets/galaxy.jpg" id="1_0f027"]
 [ext_resource type="PackedScene" uid="uid://c2bjypt5qheov" path="res://scenes/moon-center.tscn" id="2_pw63i"]
 [ext_resource type="PackedScene" uid="uid://upw6p8d5t0yw" path="res://scenes/rocket.tscn" id="3_7ykc4"]
 [ext_resource type="Script" uid="uid://ci12vg25c60jc" path="res://scenes/line_2d.gd" id="4_pu3yx"]
 
-[node name="main_scene" type="Node2D" unique_id=366378722]
+[node name="main_scene" type="Node2D"]
 
-[node name="background" type="Sprite2D" parent="." unique_id=1776850665]
+[node name="background" type="Sprite2D" parent="."]
 z_index = -10
 texture = ExtResource("1_0f027")
 
-[node name="rocket" parent="." unique_id=1451170020 instance=ExtResource("3_7ykc4")]
+[node name="rocket" parent="." instance=ExtResource("3_7ykc4")]
 position = Vector2(-358, -40)
 
-[node name="moon-center" parent="." unique_id=1377490108 instance=ExtResource("2_pw63i")]
+[node name="Line2D" type="Line2D" parent="."]
+default_color = Color(0, 1, 1, 1)
+script = ExtResource("4_pu3yx")
+
+[node name="moon-center" parent="." instance=ExtResource("2_pw63i")]
 position = Vector2(-356, 0)
 scale = Vector2(0.3984375, 0.375)
 
-[node name="Camera2D" type="Camera2D" parent="moon-center" unique_id=1599051162]
+[node name="Camera2D" type="Camera2D" parent="moon-center"]
 position = Vector2(0, 2.3841858e-07)
 scale = Vector2(2.509804, 2.6666667)
 zoom = Vector2(2, 2)
-
-[node name="Line2D" type="Line2D" parent="." unique_id=1899354703]
-script = ExtResource("4_pu3yx")
