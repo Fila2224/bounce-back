@@ -35,7 +35,6 @@ func _physics_process(delta: float) -> void:
 	
 	global_position = global_position.move_toward(moon_center.global_position, speed * delta)
 	
-	# Záložní detekce: pokud meteor doletí přímo k povrchu měsíce (poloměr měsíce je cca 20 px)
 	if global_position.distance_to(moon_center.global_position) <= 22.0:
 		explode("moon")
 
@@ -43,10 +42,10 @@ func _on_body_entered(body: Node2D) -> void:
 	if is_exploded:
 		return
 	
-	# 1. Zásah raketou
+	# rocket
 	if body.name == "rocket" or body.is_in_group("rocket"):
 		explode("rocket")
-	# 2. Zásah měsíce
+	# mesic
 	elif body.name == "moon-center" or body.get_parent() == moon_center or body.is_in_group("moon"):
 		explode("moon")
 
@@ -57,7 +56,6 @@ func _on_area_entered(area: Area2D) -> void:
 		explode("rocket")
 		
 
-## Provede explozi meteoru a rozliší, do čeho narazil
 func explode(source: String) -> void:
 	if is_exploded:
 		return
@@ -65,14 +63,11 @@ func explode(source: String) -> void:
 	
 	if source == "moon":
 		hit_moon.emit()
-		# --- ZDE BUDE ODEČÍTÁNÍ BODŮ ZA ZÁSAH MĚSÍCE ---
-		print("Meteor zasáhl měsíc! (-body)")
+		
 	elif source == "rocket":
 		hit_rocket.emit()
-		# --- ZDE BUDE PŘIČÍTÁNÍ BODŮ ZA OCHRANU MĚSÍCE ---
-		print("Raketa zničila meteor!")
+		
 	
-	# Spustíme animaci výbuchu z Exhaust_03
 	if anim:
 		anim.play("explode")
 	else:
