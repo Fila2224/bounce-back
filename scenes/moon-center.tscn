@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2bjypt5qheov"]
+
+[ext_resource type="Texture2D" uid="uid://dly4xhu8p2x8n" path="res://assets/16.png" id="1_vivaf"]
+
+[node name="moon-center" type="Sprite2D" unique_id=1078681919]
+texture = ExtResource("1_vivaf")
