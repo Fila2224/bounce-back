@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-signal hit_moon
-signal hit_rocket
+signal hit_moon(pos: Vector2)
+signal hit_rocket(pos: Vector2)
 
 @onready var moon_center: Node2D = $"../moon-center"
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -70,7 +70,7 @@ func on_hit_rocket() -> void:
 		return
 	is_dead = true
 	_disable_collision()
-	hit_rocket.emit()
+	hit_rocket.emit(global_position)
 	print("Stíhačka zničena raketou! (+3 body)")
 	
 	if anim:
@@ -87,7 +87,7 @@ func on_hit_moon() -> void:
 		return
 	is_dead = true
 	_disable_collision()
-	hit_moon.emit()
+	hit_moon.emit(global_position)
 	print("Stíhačka zaútočila na měsíc! (-5 bodů)")
 	
 	if anim:

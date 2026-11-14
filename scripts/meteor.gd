@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-signal hit_moon
-signal hit_rocket
+signal hit_moon(pos: Vector2)
+signal hit_rocket(pos: Vector2)
 
 @onready var moon_center: Node2D = $"../moon-center"
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -60,10 +60,10 @@ func explode(source: String) -> void:
 	is_exploded = true
 	
 	if source == "moon":
-		hit_moon.emit()
+		hit_moon.emit(global_position)
 		
 	elif source == "rocket":
-		hit_rocket.emit()
+		hit_rocket.emit(global_position)
 		
 	
 	if anim:

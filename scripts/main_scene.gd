@@ -5,6 +5,7 @@ extends Node2D
 
 @export var meteor_scene: PackedScene = preload("res://scenes/meteor.tscn")
 @export var fighter_scene: PackedScene = preload("res://scenes/enemy_fighter.tscn")
+var pixel_font: FontFile = preload("res://assets/Pixel Game.otf")
 
 enum EnemyType { METEOR, FIGHTER }
 var spawn_bag: Array[EnemyType] = []
@@ -164,23 +165,87 @@ func spawn_fighter() -> void:
 	
 	add_child(fighter)
 
-func _on_meteor_hit_rocket() -> void:
+func screen_shake(strength: float = 6.0, duration: float = 0.2) -> void:
+	if not camera:
+		return
+	var tween := create_tween()
+	var steps := 5
+	var step_time := duration / float(steps)
+	for i in range(steps):
+		var current_strength := strength * (1.0 - float(i) / float(steps))
+		var offset := Vector2(randf_range(-current_strength, current_strength), randf_range(-current_strength, current_strength))
+		tween.tween_property(camera, "offset", offset, step_time)
+	tween.tween_property(camera, "offset", Vector2.ZERO, step_time)
+
+func spawn_floating_text(text: String, pos: Vector2, color: Color) -> void:
+	var label := Label.new()
+	label.text = text
+	label.z_index = 60
+	label.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	label.global_position = pos - Vector2(25.0, 15.0)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.size = Vector2(50.0, 30.0)
+	if pixel_font:
+		label.add_theme_font_override("font", pixel_font)
+	label.add_theme_font_size_override("font_size", 28)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
+	label.add_theme_constant_override("outline_size", 6)
+	add_child(label)
+	
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "position:y", label.position.y - 30.0, 0.65).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label, "modulate:a", 0.0, 0.65).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.chain().tween_callback(label.queue_free)
+
+func spawn_explosion_particles(pos: Vector2, color: Color, count: int) -> void:
+	var p := CPUParticles2D.new()
+	p.z_index = 30
+	p.global_position = pos
+	p.emitting = true
+	p.one_shot = true
+	p.explosiveness = 1.0
+	p.amount = count
+	p.lifetime = 0.4
+	p.spread = 180.0
+	p.gravity = Vector2.ZERO
+	p.initial_velocity_min = 40.0
+	p.initial_velocity_max = 90.0
+	p.scale_amount_min = 2.0
+	p.scale_amount_max = 4.0
+	p.color = color
+	add_child(p)
+	get_tree().create_timer(0.5).timeout.connect(p.queue_free)
+
+func _on_meteor_hit_rocket(pos: Vector2) -> void:
 	add_score(1)
+	spawn_floating_text("+1", pos, Color(0.2, 1.0, 0.4))
+	spawn_explosion_particles(pos, Color(1.0, 0.65, 0.2), 10)
 	if hit_destroy_audio:
 		hit_destroy_audio.play()
 
-func _on_meteor_hit_moon() -> void:
+func _on_meteor_hit_moon(pos: Vector2) -> void:
 	add_score(-3)
+	spawn_floating_text("-3", pos, Color(1.0, 0.25, 0.25))
+	spawn_explosion_particles(pos, Color(0.9, 0.4, 0.2), 16)
+	screen_shake(5.0, 0.2)
 	if hit_moon_audio:
 		hit_moon_audio.play()
 
-func _on_fighter_hit_rocket() -> void:
+func _on_fighter_hit_rocket(pos: Vector2) -> void:
 	add_score(3)
+	spawn_floating_text("+3", pos, Color(0.3, 1.0, 0.5))
+	spawn_explosion_particles(pos, Color(0.2, 0.9, 1.0), 14)
+	screen_shake(2.0, 0.1)
 	if hit_destroy_audio:
 		hit_destroy_audio.play()
 
-func _on_fighter_hit_moon() -> void:
+func _on_fighter_hit_moon(pos: Vector2) -> void:
 	add_score(-5)
+	spawn_floating_text("-5", pos, Color(1.0, 0.2, 0.2))
+	spawn_explosion_particles(pos, Color(1.0, 0.2, 0.1), 18)
+	screen_shake(8.0, 0.25)
 	if hit_moon_audio:
 		hit_moon_audio.play()
 
