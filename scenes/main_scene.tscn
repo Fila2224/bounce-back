@@ -13,6 +13,10 @@ texture = ExtResource("1_0f027")
 [node name="rocket" parent="." instance=ExtResource("3_7ykc4")]
 position = Vector2(-356, -42)
 
+[node name="Line2D" type="Line2D" parent="."]
+default_color = Color(1, 1, 0, 1)
+script = ExtResource("4_pu3yx")
+
 [node name="moon-center" parent="." instance=ExtResource("2_pw63i")]
 position = Vector2(-356, 0)
 scale = Vector2(0.3984375, 0.375)
@@ -21,6 +25,3 @@ scale = Vector2(0.3984375, 0.375)
 position = Vector2(0, 2.3841858e-07)
 scale = Vector2(2.509804, 2.6666667)
 zoom = Vector2(2, 2)
-
-[node name="Line2D" type="Line2D" parent="."]
-script = ExtResource("4_pu3yx")
