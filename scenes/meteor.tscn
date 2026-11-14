@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_tcwo0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pxso2"]
+radius = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohe0j"]
 atlas = ExtResource("1_tcwo0")
@@ -25,6 +26,34 @@ region = Rect2(384, 200, 128, 200)
 atlas = ExtResource("1_tcwo0")
 region = Rect2(512, 200, 128, 200)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_0"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(0, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_1"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(128, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_2"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(256, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_3"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(384, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_4"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(512, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_5"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(640, 400, 128, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exp_6"]
+atlas = ExtResource("1_tcwo0")
+region = Rect2(768, 400, 128, 200)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_o8pv2"]
 animations = [{
 "frames": [{
@@ -45,7 +74,33 @@ animations = [{
 }],
 "loop": 1,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exp_6")
+}],
+"loop": 0,
+"name": &"explode",
+"speed": 14.0
 }]
 
 [node name="meteor" type="CharacterBody2D" unique_id=1175688583]
@@ -61,4 +116,3 @@ position = Vector2(0, 20)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_o8pv2")
 autoplay = "default"
-frame_progress = 0.16073653
