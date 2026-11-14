@@ -169,18 +169,11 @@ animations = [{
 atlas = ExtResource("3_fj03e")
 region = Rect2(0, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_agf72"]
-atlas = ExtResource("3_fj03e")
-region = Rect2(0, 0, 48, 48)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_073cp"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dkv7l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_agf72")
 }],
 "loop": 1,
 "name": &"default",
@@ -203,7 +196,6 @@ offset = Vector2(0, 96)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710762449]
 sprite_frames = SubResource("SpriteFrames_073cp")
-autoplay = "default"
 
 [node name="connector" type="Node2D" parent="." unique_id=1620100182]
 position = Vector2(0, 11)

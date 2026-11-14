@@ -26,7 +26,7 @@ texture = ExtResource("1_0f027")
 
 [node name="Line2D" type="Line2D" parent="." groups=["line"]]
 z_index = -5
-default_color = Color(0, 1, 1, 1)
+default_color = Color(1, 0.43137255, 0.078431375, 0.9019608)
 script = ExtResource("4_pu3yx")
 
 [node name="meteor" parent="." instance=ExtResource("5_gubc5")]
