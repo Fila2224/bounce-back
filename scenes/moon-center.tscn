@@ -1,6 +1,14 @@
-[gd_scene load_steps=0 format=3 uid="uid://c2bjypt5qheov"]
+[gd_scene format=3 uid="uid://c2bjypt5qheov"]
 
 [ext_resource type="Texture2D" uid="uid://dly4xhu8p2x8n" path="res://assets/16.png" id="1_vivaf"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_073cp"]
+radius = 50.24938
+
 [node name="moon-center" type="Sprite2D" unique_id=1078681919]
 texture = ExtResource("1_vivaf")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=47957234]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1447122485]
+shape = SubResource("CircleShape2D_073cp")
