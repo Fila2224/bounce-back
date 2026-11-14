@@ -55,6 +55,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area.get_parent() and (area.get_parent().name == "rocket" or area.get_parent().is_in_group("rocket")):
 		explode("rocket")
+		
 
 ## Provede explozi meteoru a rozliší, do čeho narazil
 func explode(source: String) -> void:
