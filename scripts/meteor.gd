@@ -7,7 +7,6 @@ signal hit_rocket
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
 
-## Počáteční základní rychlost meteoru (při startu zpomaleno)
 @export var speed: float = 60.0
 
 var is_exploded: bool = false

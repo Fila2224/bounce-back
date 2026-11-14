@@ -1,10 +1,8 @@
 
 extends CharacterBody2D
 
-## Maximální rychlost letu těsně u planety
 @export var speed: float = 80.0
 
-## Minimální rychlost letu při vzdálení
 @export var min_speed: float = 15.0
 
 @export var max_distance: float = 500.0
@@ -13,7 +11,6 @@ extends CharacterBody2D
 @export var pull_speed: float = 35.0
 @export var dash_duration: float = 0.25
 
-## Násobitel rychlosti při boostu
 @export var boost_multiplier: float = 2.0
 
 var lives = 6
@@ -33,7 +30,6 @@ func _ready() -> void:
 	if not planet and get_parent():
 		planet = get_parent().get_node_or_null("moon-center")
 
-	# Nastavení Timeru
 	if timer:
 		timer.wait_time = 0.05
 		timer.one_shot = false
@@ -43,15 +39,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
-	# DASH
 	if Input.is_action_just_pressed("blip") and not is_dashing and planet:
 		start_center_dash()
 		return
 
-	# BOOST podle držení Shiftu
 	is_boosting = Input.is_action_pressed("speed") and progress_bar.value > 0
 
-	# Během dashingu neovládáme raketu
 	if is_dashing:
 		return
 
@@ -70,13 +63,11 @@ func _physics_process(delta: float) -> void:
 			)
 			current_speed = lerp(speed, min_speed, t)
 
-		# Zrychlení při boostu
 		if is_boosting:
 			current_speed *= boost_multiplier
 
 		velocity = direction * current_speed
 
-		# Otáčení rakety
 		var target_rotation := direction.angle() + PI / 2
 
 		if rotation_speed > 0.0:
@@ -84,19 +75,16 @@ func _physics_process(delta: float) -> void:
 		else:
 			rotation = target_rotation
 
-		# Zapnutí motorů
 		if exhaust:
 			exhaust.visible = true
 			if not exhaust.is_playing() or exhaust.animation != "flying":
 				exhaust.play("flying")
 
 	else:
-		# Vypnutí motorů
 		if exhaust:
 			exhaust.visible = false
 			exhaust.stop()
 
-		# Přitahování k planetě
 		if planet:
 			var to_planet := planet.global_position - global_position
 
@@ -110,43 +98,34 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-## DOBÍJENÍ A ODEČÍTÁNÍ BOOSTU
 func _on_boost_timer_timeout() -> void:
 
 	if Input.is_action_pressed("speed") and progress_bar.value > 0:
-		# Odebírání energie při držení Shiftu
 		progress_bar.value = maxf(0.0, progress_bar.value - 1.0)
 	else:
-		# Dobíjení energie při puštěném Shiftu
 		progress_bar.value = minf(100.0, progress_bar.value + 1.0)
 
 
-## DASH
 func start_center_dash() -> void:
 	is_dashing = true
 	velocity = Vector2.ZERO
 
-	# Vypnutí kolize
 	if collision_shape:
 		collision_shape.set_deferred("disabled", true)
 
-	# Výpočet cílové pozice
 	var current_offset := global_position - planet.global_position
 	var target_pos := planet.global_position - current_offset
 
-	# Natočení rakety
 	var dash_dir := (target_pos - global_position).normalized()
 
 	if dash_dir != Vector2.ZERO:
 		rotation = dash_dir.angle() + PI / 2
 
-	# Zapnutí motorů
 	if exhaust:
 		exhaust.visible = true
 		if not exhaust.is_playing() or exhaust.animation != "flying":
 			exhaust.play("flying")
 
-	# Pohyb pomocí Tween
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_IN_OUT)

@@ -6,19 +6,15 @@ extends Node2D
 @export var meteor_scene: PackedScene = preload("res://scenes/meteor.tscn")
 @export var fighter_scene: PackedScene = preload("res://scenes/enemy_fighter.tscn")
 
-## Poměr spawnů: 1 stíhačka na každé 4 meteory
 enum EnemyType { METEOR, FIGHTER }
 var spawn_bag: Array[EnemyType] = []
 
-## Dynamické zvyšování obtížnosti
 var elapsed_game_time: float = 0.0
 
-## Nastavení intervalu spawnů (začíná na 3.2 s a postupně zrychluje)
 @export var initial_spawn_interval: float = 3.2
 @export var min_spawn_interval: float = 0.75
-@export var difficulty_ramp_duration: float = 110.0 # Dosažení maximální intenzity kolem 1:50 min
+@export var difficulty_ramp_duration: float = 110.0 
 
-## Nastavení rychlostí nepřátel (na začátku výrazně zpomaleno)
 @export var initial_meteor_speed: float = 60.0
 @export var max_meteor_speed: float = 105.0
 
@@ -51,14 +47,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	elapsed_game_time += delta
 
-## Vrátí faktor obtížnosti od 0.0 (začátek) do 1.0 (kolem 1:50 min)
 func get_difficulty_factor() -> float:
 	return clampf(elapsed_game_time / maxf(1.0, difficulty_ramp_duration), 0.0, 1.0)
 
-## Spočítá aktuální interval spawnování – zrychluje plynule s časem
 func get_current_spawn_interval() -> float:
 	var factor := get_difficulty_factor()
-	# Kvadratická křivka – na začátku klid, po 60–90 sekundách začne tempo rapidně houstnout
 	var curved_factor := factor * factor
 	return lerpf(initial_spawn_interval, min_spawn_interval, curved_factor)
 
@@ -69,7 +62,6 @@ func get_current_fighter_speed() -> float:
 	return lerpf(initial_fighter_speed, max_fighter_speed, get_difficulty_factor())
 
 func _refill_spawn_bag() -> void:
-	# Garantovaný poměr 1 stíhačka na 4 meteory bez výpadků vlivem náhody
 	spawn_bag = [
 		EnemyType.METEOR,
 		EnemyType.METEOR,
@@ -82,7 +74,6 @@ func _refill_spawn_bag() -> void:
 func _on_meteor_timer_timeout() -> void:
 	spawn_enemy()
 	
-	# Po cca 95 s (okolo 1:35 min) přibývá šance na spawn druhého nepřítele naráz
 	if elapsed_game_time > 95.0 and randf() < 0.35:
 		spawn_enemy()
 	
@@ -105,18 +96,17 @@ func get_random_screen_edge_position() -> Vector2:
 	var spawn_pos := Vector2.ZERO
 	
 	match side:
-		0: # Nahoře
+		0: # up
 			spawn_pos = Vector2(randf_range(-half_w, half_w), -half_h)
-		1: # Dole
+		1: # down
 			spawn_pos = Vector2(randf_range(-half_w, half_w), half_h)
-		2: # Vlevo
+		2: # left
 			spawn_pos = Vector2(-half_w, randf_range(-half_h, half_h))
-		3: # Vpravo
+		3: # right
 			spawn_pos = Vector2(half_w, randf_range(-half_h, half_h))
 	
 	return center + spawn_pos
 
-## Vybere a vygeneruje nepřítele podle shuffle-bagu v poměru 1:4
 func spawn_enemy() -> void:
 	if spawn_bag.is_empty():
 		_refill_spawn_bag()
@@ -172,19 +162,15 @@ func spawn_fighter() -> void:
 	
 	add_child(fighter)
 
-## Meteor zničen raketou -> +1 bod
 func _on_meteor_hit_rocket() -> void:
 	add_score(1)
 
-## Meteor zasáhl měsíc -> -3 body
 func _on_meteor_hit_moon() -> void:
 	add_score(-3)
 
-## Stíhačka zničena raketou -> +3 body
 func _on_fighter_hit_rocket() -> void:
 	add_score(3)
 
-## Stíhačka zasáhla měsíc -> -5 bodů
 func _on_fighter_hit_moon() -> void:
 	add_score(-5)
 
