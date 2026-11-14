@@ -54,6 +54,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area.get_parent() and (area.get_parent().name == "rocket" or area.get_parent().is_in_group("rocket")):
 		explode("rocket")
+		
 
 func explode(source: String) -> void:
 	if is_exploded:
