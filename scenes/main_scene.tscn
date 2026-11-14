@@ -7,18 +7,6 @@
 
 [node name="main_scene" type="Node2D" unique_id=1618909244]
 
-[node name="background" type="Sprite2D" parent="." unique_id=1060022089]
-z_index = -10
-texture = ExtResource("1_0f027")
-
-[node name="rocket" parent="." unique_id=517996678 node_paths=PackedStringArray("planet") instance=ExtResource("3_7ykc4")]
-position = Vector2(-358, -40)
-planet = NodePath("../moon-center")
-
-[node name="Line2D" type="Line2D" parent="." unique_id=665155692 groups=["line"]]
-default_color = Color(0, 1, 1, 1)
-script = ExtResource("4_pu3yx")
-
 [node name="moon-center" parent="." unique_id=865734755 instance=ExtResource("2_pw63i")]
 position = Vector2(-356, 0)
 scale = Vector2(0.3984375, 0.375)
@@ -27,3 +15,16 @@ scale = Vector2(0.3984375, 0.375)
 position = Vector2(0, 2.3841858e-07)
 scale = Vector2(2.509804, 2.6666667)
 zoom = Vector2(2, 2)
+
+[node name="rocket" parent="." unique_id=517996678 node_paths=PackedStringArray("planet") instance=ExtResource("3_7ykc4")]
+position = Vector2(-358, -40)
+planet = NodePath("../moon-center")
+
+[node name="background" type="Sprite2D" parent="." unique_id=1060022089]
+z_index = -10
+texture = ExtResource("1_0f027")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=665155692 groups=["line"]]
+z_index = -5
+default_color = Color(0, 1, 1, 1)
+script = ExtResource("4_pu3yx")
