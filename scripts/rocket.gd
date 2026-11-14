@@ -14,7 +14,7 @@ extends CharacterBody2D
 @export var pull_speed: float = 35.0
 ## Doba průletu středem planety na druhou stranu (v sekundách)
 @export var dash_duration: float = 0.25
-
+var lives = 6
 var is_dashing: bool = false
 
 @onready var exhaust: AnimatedSprite2D = $Exhaust
