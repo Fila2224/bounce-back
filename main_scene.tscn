@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8fiwhhvqh8ll"]
+[gd_scene format=3 uid="uid://c8fiwhhvqh8ll"]
 
 [ext_resource type="Texture2D" uid="uid://uyiytog8t307" path="res://assets/galaxy.jpg" id="1_0f027"]
 [ext_resource type="PackedScene" uid="uid://c2bjypt5qheov" path="res://scenes/moon-center.tscn" id="2_2c62f"]
