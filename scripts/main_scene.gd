@@ -29,6 +29,10 @@ var elapsed_game_time: float = 0.0
 @onready var spawn_timer: Timer = $MeteorTimer
 @onready var hit_destroy_audio: AudioStreamPlayer = $HitDestroyAudio
 @onready var hit_moon_audio: AudioStreamPlayer = $HitMoonAudio
+@onready var game_over_ui: Control = get_node_or_null("GameOverUI")
+@onready var game_over_time: Label = get_node_or_null("GameOverUI/TimeLabel")
+
+var is_game_over: bool = false
 
 func _ready() -> void:
 	if not score_label:
@@ -48,7 +52,13 @@ func _ready() -> void:
 		spawn_timer.start()
 
 func _process(delta: float) -> void:
-	elapsed_game_time += delta
+	if not is_game_over:
+		elapsed_game_time += delta
+
+func _unhandled_input(event: InputEvent) -> void:
+	if is_game_over:
+		if event.is_action_pressed("restart") or (event is InputEventKey and event.pressed and event.keycode == KEY_R):
+			get_tree().reload_current_scene()
 
 func get_difficulty_factor() -> float:
 	return clampf(elapsed_game_time / maxf(1.0, difficulty_ramp_duration), 0.0, 1.0)
@@ -225,8 +235,37 @@ func _on_meteor_hit_rocket(pos: Vector2) -> void:
 	if hit_destroy_audio:
 		hit_destroy_audio.play()
 
+func flash_moon() -> void:
+	if not moon_center:
+		return
+	var tween := create_tween()
+	moon_center.modulate = Color(2.5, 0.25, 0.25, 1.0)
+	tween.tween_property(moon_center, "modulate", Color.WHITE, 0.18)
+
+func trigger_game_over() -> void:
+	if is_game_over:
+		return
+	is_game_over = true
+	if spawn_timer:
+		spawn_timer.stop()
+	
+	var minutes := int(elapsed_game_time) / 60
+	var seconds := int(elapsed_game_time) % 60
+	if game_over_time:
+		if minutes > 0:
+			game_over_time.text = "Survived: %dm %02ds" % [minutes, seconds]
+		else:
+			game_over_time.text = "Survived: %ds" % seconds
+	
+	if game_over_ui:
+		game_over_ui.visible = true
+		game_over_ui.modulate.a = 0.0
+		var tween := create_tween()
+		tween.tween_property(game_over_ui, "modulate:a", 1.0, 0.35)
+
 func _on_meteor_hit_moon(pos: Vector2) -> void:
 	add_score(-3)
+	flash_moon()
 	spawn_floating_text("-3", pos, Color(1.0, 0.25, 0.25))
 	spawn_explosion_particles(pos, Color(0.9, 0.4, 0.2), 16)
 	screen_shake(5.0, 0.2)
@@ -243,6 +282,7 @@ func _on_fighter_hit_rocket(pos: Vector2) -> void:
 
 func _on_fighter_hit_moon(pos: Vector2) -> void:
 	add_score(-5)
+	flash_moon()
 	spawn_floating_text("-5", pos, Color(1.0, 0.2, 0.2))
 	spawn_explosion_particles(pos, Color(1.0, 0.2, 0.1), 18)
 	screen_shake(8.0, 0.25)
@@ -250,8 +290,12 @@ func _on_fighter_hit_moon(pos: Vector2) -> void:
 		hit_moon_audio.play()
 
 func add_score(amount: int) -> void:
+	if is_game_over:
+		return
 	score += amount
 	update_score_display()
+	if score < 0:
+		trigger_game_over()
 
 func update_score_display() -> void:
 	if score_label:

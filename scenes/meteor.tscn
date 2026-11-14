@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dd77yiwmgdg3q"]
+[gd_scene format=3 uid="uid://dd77yiwmgdg3q"]
 
 [ext_resource type="Script" uid="uid://yv7bsuwfhvnd" path="res://scripts/meteor.gd" id="1_pxso2"]
 [ext_resource type="Texture2D" uid="uid://00hbolocd746" path="res://assets/Animated_Exhaust_pixel_Pack_Free/Exhaust_03/exhaust_03_spritesheet.png" id="1_tcwo0"]
@@ -72,7 +72,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yxpia")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 10.0
 }, {
@@ -98,21 +98,21 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_exp_6")
 }],
-"loop": false,
+"loop": 0,
 "name": &"explode",
 "speed": 14.0
 }]
 
-[node name="meteor" type="CharacterBody2D"]
+[node name="meteor" type="CharacterBody2D" unique_id=2095707301]
 texture_filter = 1
 script = ExtResource("1_pxso2")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1466889486]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1599848554]
 shape = SubResource("CircleShape2D_pxso2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=116994434]
 position = Vector2(0, 20)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_o8pv2")
