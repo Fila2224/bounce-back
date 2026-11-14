@@ -23,4 +23,4 @@ scale = Vector2(2.509804, 2.6666667)
 zoom = Vector2(2, 2)
 
 [node name="rocket" parent="." unique_id=1743895939 instance=ExtResource("3_7ykc4")]
-position = Vector2(-357, -34)
+position = Vector2(-356, -42)
