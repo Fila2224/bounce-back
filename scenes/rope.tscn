@@ -17,6 +17,6 @@ func _process(delta: float) -> void:
 
 [node name="Line2D" type="Line2D"]
 points = PackedVector2Array(-1, -2, 619, 0)
-width = 600.0
+width = 5.0
 default_color = Color(0, 1, 1, 1)
 script = SubResource("GDScript_wmsjs")
