@@ -7,10 +7,11 @@ signal hit_rocket
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
 
-## Rychlost letu stíhačky (o něco pomalejší než meteory, které mají 100)
-@export var speed: float = 75.0
+## Počáteční základní rychlost stíhačky (o něco pomalejší než meteory)
+@export var speed: float = 48.0
 
 var is_dead: bool = false
+var lifetime: float = 0.0
 
 func _ready() -> void:
 	if not moon_center and get_parent():
@@ -28,17 +29,20 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 	
+	lifetime += delta
+	if lifetime > 40.0:
+		queue_free()
+		return
+	
 	if not moon_center:
 		return
 	
-	# Otáčení čelem k měsíci (sprite má špičku doprava, takže rotation přímo odpovídá úhlu směru)
 	var dir := (moon_center.global_position - global_position).normalized()
 	if dir != Vector2.ZERO:
 		rotation = dir.angle()
 	
 	global_position = global_position.move_toward(moon_center.global_position, speed * delta)
 	
-	# Záložní detekce nárazu na povrch měsíce (poloměr měsíce cca 20 px)
 	if global_position.distance_to(moon_center.global_position) <= 22.0:
 		on_hit_moon()
 
@@ -46,10 +50,8 @@ func _on_body_entered(body: Node2D) -> void:
 	if is_dead:
 		return
 	
-	# 1. Zásah naší raketou
 	if body.name == "rocket" or body.is_in_group("rocket"):
 		on_hit_rocket()
-	# 2. Zásah měsíce
 	elif body.name == "moon-center" or body.get_parent() == moon_center or body.is_in_group("moon"):
 		on_hit_moon()
 
@@ -59,29 +61,42 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.get_parent() and (area.get_parent().name == "rocket" or area.get_parent().is_in_group("rocket")):
 		on_hit_rocket()
 
-## Zničení stíhačky naší raketou -> animace 'destroyed'
+func _disable_collision() -> void:
+	if area_2d:
+		area_2d.set_deferred("monitoring", false)
+		area_2d.set_deferred("monitorable", false)
+
 func on_hit_rocket() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	_disable_collision()
 	hit_rocket.emit()
 	print("Stíhačka zničena raketou! (+3 body)")
 	
 	if anim:
 		anim.play("destroyed")
+		get_tree().create_timer(1.2).timeout.connect(func():
+			if is_instance_valid(self):
+				queue_free()
+		)
 	else:
 		queue_free()
 
-## Dotyk stíhačky s měsícem -> animace 'attack_2'
 func on_hit_moon() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	_disable_collision()
 	hit_moon.emit()
 	print("Stíhačka zaútočila na měsíc! (-5 bodů)")
 	
 	if anim:
 		anim.play("attack_2")
+		get_tree().create_timer(1.0).timeout.connect(func():
+			if is_instance_valid(self):
+				queue_free()
+		)
 	else:
 		queue_free()
 

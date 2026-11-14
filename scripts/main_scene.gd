@@ -6,11 +6,25 @@ extends Node2D
 @export var meteor_scene: PackedScene = preload("res://scenes/meteor.tscn")
 @export var fighter_scene: PackedScene = preload("res://scenes/enemy_fighter.tscn")
 
-## Šance na spawnutí stíhačky místo meteoru (0.20 odpovídá poměru 1 stíhačka na 4 meteory)
-@export var fighter_spawn_chance: float = 0.20
+## Poměr spawnů: 1 stíhačka na každé 4 meteory
+enum EnemyType { METEOR, FIGHTER }
+var spawn_bag: Array[EnemyType] = []
 
-@export var spawn_interval: float = 2.5
-@export var spawn_interval_variation: float = 0.5
+## Dynamické zvyšování obtížnosti
+var elapsed_game_time: float = 0.0
+
+## Nastavení intervalu spawnů (začíná na 3.2 s a postupně zrychluje)
+@export var initial_spawn_interval: float = 3.2
+@export var min_spawn_interval: float = 0.75
+@export var difficulty_ramp_duration: float = 110.0 # Dosažení maximální intenzity kolem 1:50 min
+
+## Nastavení rychlostí nepřátel (na začátku výrazně zpomaleno)
+@export var initial_meteor_speed: float = 60.0
+@export var max_meteor_speed: float = 105.0
+
+@export var initial_fighter_speed: float = 48.0
+@export var max_fighter_speed: float = 85.0
+
 @export var spawn_margin: float = 40.0
 
 @onready var moon_center: Node2D = $"moon-center"
@@ -22,15 +36,60 @@ func _ready() -> void:
 		score_label = find_child("score", true, false) as Label
 	update_score_display()
 	
+	if not meteor_scene:
+		meteor_scene = preload("res://scenes/meteor.tscn")
+	if not fighter_scene:
+		fighter_scene = preload("res://scenes/enemy_fighter.tscn")
+	
+	_refill_spawn_bag()
+	
 	if spawn_timer:
 		spawn_timer.timeout.connect(_on_meteor_timer_timeout)
-		spawn_timer.wait_time = spawn_interval
+		spawn_timer.wait_time = initial_spawn_interval
 		spawn_timer.start()
+
+func _process(delta: float) -> void:
+	elapsed_game_time += delta
+
+## Vrátí faktor obtížnosti od 0.0 (začátek) do 1.0 (kolem 1:50 min)
+func get_difficulty_factor() -> float:
+	return clampf(elapsed_game_time / maxf(1.0, difficulty_ramp_duration), 0.0, 1.0)
+
+## Spočítá aktuální interval spawnování – zrychluje plynule s časem
+func get_current_spawn_interval() -> float:
+	var factor := get_difficulty_factor()
+	# Kvadratická křivka – na začátku klid, po 60–90 sekundách začne tempo rapidně houstnout
+	var curved_factor := factor * factor
+	return lerpf(initial_spawn_interval, min_spawn_interval, curved_factor)
+
+func get_current_meteor_speed() -> float:
+	return lerpf(initial_meteor_speed, max_meteor_speed, get_difficulty_factor())
+
+func get_current_fighter_speed() -> float:
+	return lerpf(initial_fighter_speed, max_fighter_speed, get_difficulty_factor())
+
+func _refill_spawn_bag() -> void:
+	# Garantovaný poměr 1 stíhačka na 4 meteory bez výpadků vlivem náhody
+	spawn_bag = [
+		EnemyType.METEOR,
+		EnemyType.METEOR,
+		EnemyType.METEOR,
+		EnemyType.METEOR,
+		EnemyType.FIGHTER
+	]
+	spawn_bag.shuffle()
 
 func _on_meteor_timer_timeout() -> void:
 	spawn_enemy()
+	
+	# Po cca 95 s (okolo 1:35 min) přibývá šance na spawn druhého nepřítele naráz
+	if elapsed_game_time > 95.0 and randf() < 0.35:
+		spawn_enemy()
+	
 	if spawn_timer:
-		var next_time := maxf(0.8, spawn_interval + randf_range(-spawn_interval_variation, spawn_interval_variation))
+		var current_interval := get_current_spawn_interval()
+		var variation := current_interval * 0.15
+		var next_time := maxf(0.5, current_interval + randf_range(-variation, variation))
 		spawn_timer.wait_time = next_time
 
 func get_random_screen_edge_position() -> Vector2:
@@ -57,19 +116,28 @@ func get_random_screen_edge_position() -> Vector2:
 	
 	return center + spawn_pos
 
-## Vybere a vygeneruje nepřítele (stíhačku nebo meteor v poměru 1:4)
+## Vybere a vygeneruje nepřítele podle shuffle-bagu v poměru 1:4
 func spawn_enemy() -> void:
-	if randf() < fighter_spawn_chance and fighter_scene:
+	if spawn_bag.is_empty():
+		_refill_spawn_bag()
+	
+	var next_type: EnemyType = spawn_bag.pop_back()
+	if next_type == EnemyType.FIGHTER:
 		spawn_fighter()
 	else:
 		spawn_meteor()
 
 func spawn_meteor() -> void:
 	if not meteor_scene:
+		meteor_scene = preload("res://scenes/meteor.tscn")
+	if not meteor_scene:
 		return
 	
 	var meteor := meteor_scene.instantiate() as Node2D
 	meteor.global_position = get_random_screen_edge_position()
+	
+	if "speed" in meteor:
+		meteor.speed = get_current_meteor_speed()
 	
 	if "moon_center" in meteor and moon_center:
 		meteor.moon_center = moon_center
@@ -83,10 +151,16 @@ func spawn_meteor() -> void:
 
 func spawn_fighter() -> void:
 	if not fighter_scene:
+		fighter_scene = preload("res://scenes/enemy_fighter.tscn")
+	if not fighter_scene:
+		spawn_meteor()
 		return
 	
 	var fighter := fighter_scene.instantiate() as Node2D
 	fighter.global_position = get_random_screen_edge_position()
+	
+	if "speed" in fighter:
+		fighter.speed = get_current_fighter_speed()
 	
 	if "moon_center" in fighter and moon_center:
 		fighter.moon_center = moon_center
