@@ -1,12 +1,13 @@
 extends CharacterBody2D
-
+#var line_2d = get_tree().get_nodes_in_group("line")
 @export var speed: float = 80.0
 ## Rychlost otáčení rakety (nastavte na 0 pro okamžité otočení, nebo např. 12 pro plynulé)
-@export var rotation_speed: float = 5.0
+@export var rotation_speed: float = 5.0#*line_2d.width
 
 @onready var exhaust: AnimatedSprite2D = $Exhaust
 
 func _ready() -> void:
+
 	if exhaust:
 		exhaust.visible = false
 
