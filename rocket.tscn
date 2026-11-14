@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dqaodeblpexct"]
+[gd_scene load_steps=3 format=3 uid="uid://dqaodeblpexct"]
 
 [ext_resource type="Texture2D" uid="uid://d3mbxug6fb8h7" path="res://assets/Main Ship - Base - Damaged.png" id="1_fj03e"]
 

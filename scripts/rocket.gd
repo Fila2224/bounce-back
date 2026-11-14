@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed: float = 80.0
 ## Rychlost otáčení rakety (nastavte na 0 pro okamžité otočení, nebo např. 12 pro plynulé)
-@export var rotation_speed: float = 12.0
+@export var rotation_speed: float = 5.0
 
 func _physics_process(delta: float) -> void:
 	# Získání směru podle nastavených akcí z Input Map (left, right, up, down)
