@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs3u3fyos6r3l"
-path="res://.godot/imported/Damage.png-1269cb61b126160eb09f52d6e33b8bda.ctex"
+uid="uid://bi68hqt7bs0u5"
+path="res://.godot/imported/Evasion.png-c7ff8c73643f8722337a051694e33035.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/enemy_fighter/Damage.png"
-dest_files=["res://.godot/imported/Damage.png-1269cb61b126160eb09f52d6e33b8bda.ctex"]
+source_file="res://assets/enemy_fighter/Evasion.png"
+dest_files=["res://.godot/imported/Evasion.png-c7ff8c73643f8722337a051694e33035.ctex"]
 
 [params]
 
