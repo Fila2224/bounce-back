@@ -16,6 +16,7 @@ extends CharacterBody2D
 var lives = 6
 var is_dashing: bool = false
 var is_boosting: bool = false
+var prev_dash_pos: Vector2 = Vector2.ZERO
 
 @onready var timer: Timer = $"../ProgressBar/Timer"
 @onready var exhaust: AnimatedSprite2D = $Exhaust
@@ -64,6 +65,8 @@ func _physics_process(delta: float) -> void:
 	is_boosting = Input.is_action_pressed("speed") and progress_bar.value > 0
 
 	if is_dashing:
+		_check_dash_collisions()
+		prev_dash_pos = global_position
 		return
 
 	var direction := Input.get_vector("left", "right", "up", "down")
@@ -152,6 +155,7 @@ func _on_boost_timer_timeout() -> void:
 
 func start_center_dash() -> void:
 	is_dashing = true
+	prev_dash_pos = global_position
 	velocity = Vector2.ZERO
 
 	if collision_shape:
@@ -183,6 +187,7 @@ func start_center_dash() -> void:
 
 
 func _on_dash_finished() -> void:
+	_check_dash_collisions()
 	is_dashing = false
 
 	if collision_shape:
@@ -193,3 +198,24 @@ func _on_dash_finished() -> void:
 		exhaust.stop()
 	if thruster_audio and thruster_audio.playing:
 		thruster_audio.stop()
+
+
+func _check_dash_collisions() -> void:
+	if not get_parent():
+		return
+	var dash_radius := 30.0
+	for child in get_parent().get_children():
+		if child == self:
+			continue
+		if child.has_method("explode"):
+			if "is_exploded" in child and child.is_exploded:
+				continue
+			var closest := Geometry2D.get_closest_point_to_segment(child.global_position, prev_dash_pos, global_position)
+			if child.global_position.distance_to(closest) <= dash_radius:
+				child.explode("rocket")
+		elif child.has_method("on_hit_rocket"):
+			if "is_dead" in child and child.is_dead:
+				continue
+			var closest := Geometry2D.get_closest_point_to_segment(child.global_position, prev_dash_pos, global_position)
+			if child.global_position.distance_to(closest) <= dash_radius:
+				child.on_hit_rocket()
