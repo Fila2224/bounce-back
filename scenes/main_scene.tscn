@@ -16,6 +16,18 @@
 data = PackedByteArray("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")
 format = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause"]
+bg_color = Color(0.04, 0.05, 0.08, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.75, 1, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="main_scene" type="Node2D" unique_id=1816151201]
 script = ExtResource("6_main")
 
@@ -69,44 +81,55 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -280.0
-offset_top = 35.0
+offset_top = 32.0
 offset_right = 280.0
-offset_bottom = 125.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MissionLabel" type="Label" parent="StartUI" unique_id=2039122001]
-texture_filter = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="StartUI" unique_id=2039122002]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_bottom = 44.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="MissionLabel" type="Label" parent="StartUI/VBoxContainer" unique_id=2039122001]
+texture_filter = 1
+layout_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.95, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("2_18nlu")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 text = "Defend the black hole at all costs.
 Don't let anything hit it."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartLabel" type="Label" parent="StartUI" unique_id=2039122000]
+[node name="ControlsLabel" type="Label" parent="StartUI/VBoxContainer" unique_id=2039122003]
 texture_filter = 1
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -42.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.88, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_18nlu")
+theme_override_font_sizes/font_size = 18
+text = "Press [ESC] for Help & Controls"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartLabel" type="Label" parent="StartUI/VBoxContainer" unique_id=2039122000]
+texture_filter = 1
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_18nlu")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 24
 text = "Press SPACE to Start"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -139,7 +162,7 @@ wait_time = 2.5
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=2082381734]
 z_index = -10
 repeat_size = Vector2(1805, 0)
-autoscroll = Vector2(-400, 0)
+autoscroll = Vector2(-230, 0)
 repeat_times = 3
 
 [node name="background" type="Sprite2D" parent="Parallax2D" unique_id=130910052]
@@ -289,50 +312,91 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -60.0
-offset_right = 160.0
-offset_bottom = 60.0
+offset_left = -240.0
+offset_top = -120.0
+offset_right = 240.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("12_pause")
 
-[node name="Title" type="Label" parent="PauseUI" unique_id=1418293046]
-texture_filter = 1
+[node name="Panel" type="Panel" parent="PauseUI" unique_id=1418293048]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -160.0
-offset_right = 160.0
-offset_bottom = 50.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pause")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI" unique_id=1418293049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Title" type="Label" parent="PauseUI/VBoxContainer" unique_id=1418293046]
+texture_filter = 1
+layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_18nlu")
-theme_override_font_sizes/font_size = 52
-text = "PAUSED"
+theme_override_font_sizes/font_size = 30
+text = "PAUSED - CONTROLS & HELP"
 horizontal_alignment = 1
 
-[node name="ResumeLabel" type="Label" parent="PauseUI" unique_id=1418293047]
+[node name="Objective" type="Label" parent="PauseUI/VBoxContainer" unique_id=1418293050]
 texture_filter = 1
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -160.0
-offset_top = -40.0
-offset_right = 160.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_18nlu")
+theme_override_font_sizes/font_size = 15
+text = "Defend the black hole! Smash meteors (+1) and fighters (+3).
+If an enemy hits the black hole, score drops. Score < 0 = Game Over!"
+horizontal_alignment = 1
+
+[node name="ControlsHeader" type="Label" parent="PauseUI/VBoxContainer" unique_id=1418293051]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_18nlu")
+theme_override_font_sizes/font_size = 17
+text = "--- CONTROLS ---"
+horizontal_alignment = 1
+
+[node name="ControlsList" type="Label" parent="PauseUI/VBoxContainer" unique_id=1418293052]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_18nlu")
+theme_override_font_sizes/font_size = 15
+text = "WASD / ARROWS : Steer & fly rocket
+SHIFT          : Thruster Boost (uses stamina)
+SPACE          : Center Dash (warp through hole & crush enemies!)"
+horizontal_alignment = 1
+
+[node name="ResumeLabel" type="Label" parent="PauseUI/VBoxContainer" unique_id=1418293047]
+texture_filter = 1
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_18nlu")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 20
 text = "Press [ESC] to Resume"
 horizontal_alignment = 1

@@ -157,18 +157,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_tree().reload_current_scene()
 		return
 	
+	if event.is_action_pressed("pause") or (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE):
+		toggle_pause()
+		get_viewport().set_input_as_handled()
+		return
+	
 	if not is_game_started:
 		if event.is_action_pressed("blip") or (event is InputEventKey and event.pressed and event.keycode == KEY_SPACE):
 			start_game()
 			get_viewport().set_input_as_handled()
 		return
-	
-	if event.is_action_pressed("pause") or (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE):
-		toggle_pause()
-		get_viewport().set_input_as_handled()
 
 func toggle_pause() -> void:
-	if is_game_over or not is_game_started:
+	if is_game_over:
 		return
 	var new_paused := not get_tree().paused
 	get_tree().paused = new_paused
