@@ -29,15 +29,38 @@ var elapsed_game_time: float = 0.0
 @onready var spawn_timer: Timer = $MeteorTimer
 @onready var hit_destroy_audio: AudioStreamPlayer = $HitDestroyAudio
 @onready var hit_moon_audio: AudioStreamPlayer = $HitMoonAudio
+@onready var game_start_audio: AudioStreamPlayer = get_node_or_null("GameStartAudio")
+@onready var game_over_audio: AudioStreamPlayer = get_node_or_null("GameOverAudio")
+@onready var pause_ui: Control = get_node_or_null("PauseUI")
 @onready var game_over_ui: Control = get_node_or_null("GameOverUI")
 @onready var game_over_time: Label = get_node_or_null("GameOverUI/TimeLabel")
+@onready var game_over_score: Label = get_node_or_null("GameOverUI/ScoreLabel")
+@onready var time_label: Label = get_node_or_null("time_label")
+@onready var best_label: Label = get_node_or_null("best_label")
+@onready var start_ui: Control = get_node_or_null("StartUI")
 
+var is_game_started: bool = false
 var is_game_over: bool = false
 
+static var best_score: int = 10
+static var best_time: float = 0.0
+var peak_score: int = 10
+
 func _ready() -> void:
+	if FileAccess.file_exists("user://records.cfg"):
+		DirAccess.remove_absolute("user://records.cfg")
 	if not score_label:
 		score_label = find_child("score", true, false) as Label
 	update_score_display()
+	
+	update_records_display()
+	update_time_display()
+	
+	if start_ui:
+		start_ui.visible = true
+		var tween := create_tween().set_loops()
+		tween.tween_property(start_ui, "modulate:a", 0.35, 0.7).set_trans(Tween.TRANS_SINE)
+		tween.tween_property(start_ui, "modulate:a", 1.0, 0.7).set_trans(Tween.TRANS_SINE)
 	
 	if not meteor_scene:
 		meteor_scene = preload("res://scenes/meteor.tscn")
@@ -49,16 +72,62 @@ func _ready() -> void:
 	if spawn_timer:
 		spawn_timer.timeout.connect(_on_meteor_timer_timeout)
 		spawn_timer.wait_time = initial_spawn_interval
-		spawn_timer.start()
 
 func _process(delta: float) -> void:
-	if not is_game_over:
+	if is_game_started and not is_game_over:
 		elapsed_game_time += delta
+		update_time_display()
+		if elapsed_game_time > best_time:
+			best_time = elapsed_game_time
+			update_records_display()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_game_over:
 		if event.is_action_pressed("restart") or (event is InputEventKey and event.pressed and event.keycode == KEY_R):
 			get_tree().reload_current_scene()
+		return
+	
+	if not is_game_started:
+		if event.is_action_pressed("blip") or (event is InputEventKey and event.pressed and event.keycode == KEY_SPACE):
+			start_game()
+			get_viewport().set_input_as_handled()
+		return
+	
+	if event.is_action_pressed("pause") or (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE):
+		toggle_pause()
+		get_viewport().set_input_as_handled()
+
+func toggle_pause() -> void:
+	if is_game_over or not is_game_started:
+		return
+	var new_paused := not get_tree().paused
+	get_tree().paused = new_paused
+	if pause_ui:
+		pause_ui.visible = new_paused
+
+func start_game() -> void:
+	if is_game_started or is_game_over:
+		return
+	is_game_started = true
+	if start_ui:
+		start_ui.visible = false
+	if game_start_audio:
+		game_start_audio.play()
+	if spawn_timer:
+		spawn_timer.start()
+
+func format_time(t: float) -> String:
+	var mins: int = floori(t / 60.0)
+	var secs: int = int(t) % 60
+	return "%02d:%02d" % [mins, secs]
+
+func update_time_display() -> void:
+	if time_label:
+		time_label.text = "Time: " + format_time(elapsed_game_time)
+
+func update_records_display() -> void:
+	if best_label:
+		best_label.text = "Best: %s | %d pts" % [format_time(best_time), best_score]
 
 func get_difficulty_factor() -> float:
 	return clampf(elapsed_game_time / maxf(1.0, difficulty_ramp_duration), 0.0, 1.0)
@@ -248,14 +317,20 @@ func trigger_game_over() -> void:
 	is_game_over = true
 	if spawn_timer:
 		spawn_timer.stop()
+	if game_over_audio:
+		game_over_audio.play()
 	
-	var minutes := int(elapsed_game_time) / 60
-	var seconds := int(elapsed_game_time) % 60
+	if elapsed_game_time > best_time:
+		best_time = elapsed_game_time
+	if peak_score > best_score:
+		best_score = peak_score
+	update_records_display()
+	
 	if game_over_time:
-		if minutes > 0:
-			game_over_time.text = "Survived: %dm %02ds" % [minutes, seconds]
-		else:
-			game_over_time.text = "Survived: %ds" % seconds
+		game_over_time.text = "Time: %s (Best: %s)" % [format_time(elapsed_game_time), format_time(best_time)]
+	
+	if game_over_score:
+		game_over_score.text = "Peak: %d (Best: %d)" % [peak_score, best_score]
 	
 	if game_over_ui:
 		game_over_ui.visible = true
@@ -293,6 +368,11 @@ func add_score(amount: int) -> void:
 	if is_game_over:
 		return
 	score += amount
+	if score > peak_score:
+		peak_score = score
+		if peak_score > best_score:
+			best_score = peak_score
+			update_records_display()
 	update_score_display()
 	if score < 0:
 		trigger_game_over()

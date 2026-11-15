@@ -24,6 +24,8 @@ var is_boosting: bool = false
 @onready var thruster_audio: AudioStreamPlayer2D = $ThrusterAudio
 @onready var blip_audio: AudioStreamPlayer2D = $BlipAudio
 
+var was_game_started: bool = false
+
 
 func _ready() -> void:
 	if thruster_audio and thruster_audio.stream is AudioStreamWAV:
@@ -43,6 +45,17 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+
+	if get_parent():
+		if "is_game_over" in get_parent() and get_parent().is_game_over:
+			return
+		if "is_game_started" in get_parent():
+			if not get_parent().is_game_started:
+				was_game_started = false
+				return
+			if not was_game_started:
+				was_game_started = true
+				return
 
 	if Input.is_action_just_pressed("blip") and not is_dashing and planet:
 		start_center_dash()
@@ -105,6 +118,28 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 
 	move_and_slide()
+	wrap_screen()
+
+
+func wrap_screen() -> void:
+	if is_dashing:
+		return
+	var viewport_size := get_viewport_rect().size
+	var cam_zoom := Vector2(2.0, 2.0)
+	if planet and planet.has_node("Camera2D"):
+		var cam: Camera2D = planet.get_node("Camera2D")
+		if cam:
+			cam_zoom = cam.zoom
+	var half_w := (viewport_size.x / cam_zoom.x) * 0.5 + 16.0
+	var half_h := (viewport_size.y / cam_zoom.y) * 0.5 + 16.0
+	if global_position.x > half_w:
+		global_position.x = -half_w
+	elif global_position.x < -half_w:
+		global_position.x = half_w
+	if global_position.y > half_h:
+		global_position.y = -half_h
+	elif global_position.y < -half_h:
+		global_position.y = half_h
 
 
 func _on_boost_timer_timeout() -> void:
