@@ -41,6 +41,8 @@ var elapsed_game_time: float = 0.0
 
 var is_game_started: bool = false
 var is_game_over: bool = false
+var current_wave: int = 0
+var wave_sound: AudioStream = preload("res://assets/sounds/wave_alert.wav")
 
 static var best_score: int = 10
 static var best_time: float = 0.0
@@ -80,6 +82,74 @@ func _process(delta: float) -> void:
 		if elapsed_game_time > best_time:
 			best_time = elapsed_game_time
 			update_records_display()
+		check_waves()
+
+func check_waves() -> void:
+	if current_wave == 0:
+		current_wave = 1
+		show_wave_announcement("WAVE 1", "DEFEND THE VOID")
+	elif current_wave == 1 and elapsed_game_time >= 30.0:
+		current_wave = 2
+		show_wave_announcement("WAVE 2", "FIGHTER SQUADRON")
+	elif current_wave == 2 and elapsed_game_time >= 60.0:
+		current_wave = 3
+		show_wave_announcement("WAVE 3", "METEOR STORM")
+	elif current_wave == 3 and elapsed_game_time >= 90.0:
+		current_wave = 4
+		show_wave_announcement("FINAL WAVE", "GRAVITY COLLAPSE")
+
+func show_wave_announcement(title: String, subtitle: String) -> void:
+	var container := VBoxContainer.new()
+	container.z_index = 80
+	container.alignment = BoxContainer.ALIGNMENT_CENTER
+	container.custom_minimum_size = Vector2(500.0, 100.0)
+	container.size = Vector2(500.0, 100.0)
+	container.pivot_offset = Vector2(250.0, 50.0)
+	container.position = Vector2(-250.0, -90.0)
+	container.modulate.a = 0.0
+	container.scale = Vector2(0.6, 0.6)
+	
+	var title_lbl := Label.new()
+	title_lbl.text = title
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_lbl.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if pixel_font:
+		title_lbl.add_theme_font_override("font", pixel_font)
+	title_lbl.add_theme_font_size_override("font_size", 34)
+	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.25))
+	title_lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+	title_lbl.add_theme_constant_override("outline_size", 8)
+	container.add_child(title_lbl)
+	
+	var sub_lbl := Label.new()
+	sub_lbl.text = subtitle
+	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub_lbl.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if pixel_font:
+		sub_lbl.add_theme_font_override("font", pixel_font)
+	sub_lbl.add_theme_font_size_override("font_size", 20)
+	sub_lbl.add_theme_color_override("font_color", Color(0.3, 0.9, 1.0))
+	sub_lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+	sub_lbl.add_theme_constant_override("outline_size", 6)
+	container.add_child(sub_lbl)
+	
+	add_child(container)
+	
+	if wave_sound:
+		var audio := AudioStreamPlayer.new()
+		audio.stream = wave_sound
+		audio.volume_db = -2.0
+		add_child(audio)
+		audio.play()
+		audio.finished.connect(audio.queue_free)
+	
+	var tween := create_tween()
+	tween.tween_property(container, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(container, "modulate:a", 1.0, 0.4)
+	tween.tween_interval(2.5)
+	tween.tween_property(container, "modulate:a", 0.0, 0.9).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(container, "position:y", container.position.y - 15.0, 0.9).set_trans(Tween.TRANS_SINE)
+	tween.tween_callback(container.queue_free)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_game_over:
